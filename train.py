@@ -16,6 +16,7 @@ from generate import *
 # Parse command line arguments
 argparser = argparse.ArgumentParser()
 argparser.add_argument('filename', type=str)
+argparser.add_argument('--out', type=str, default="model.pt")
 argparser.add_argument('--model', type=str, default="gru")
 argparser.add_argument('--n_epochs', type=int, default=2000)
 argparser.add_argument('--print_every', type=int, default=100)
@@ -63,10 +64,11 @@ def train(inp, target):
     loss.backward()
     decoder_optimizer.step()
 
-    return loss.data[0] / args.chunk_len
+    return loss.data / args.chunk_len
 
 def save():
-    save_filename = os.path.splitext(os.path.basename(args.filename))[0] + '.pt'
+    #save_filename = os.path.splitext(os.path.basename(args.filename))[0] + '.pt'
+    save_filename = args.out
     torch.save(decoder, save_filename)
     print('Saved as %s' % save_filename)
 
